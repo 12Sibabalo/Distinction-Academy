@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Distinction Academy</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f4f6f8;
+    color: #222;
+}
+
+header {
+    background: #163a63;
+    color: white;
+    padding: 18px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 6px 0 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin: 12px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    background: #163a63;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.secondary {
+    background: #555;
+}
+
+.success {
+    background: #198754;
+}
+
+.warning {
+    background: #e67e22;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.topic {
+    border-left: 5px solid #163a63;
+}
+
+.back {
+    width: auto;
+    padding: 10px 18px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: #198754;
+}
+
+.hidden {
+    display: none;
+}
+
+.method-card {
+    padding: 20px;
+    margin: 12px 0;
+    border-radius: 12px;
+    color: white;
+}
+
+.quick {
+    background: #198754;
+}
+
+.detailed {
+    background: #1976d2;
+}
+
+.master {
+    background: #6f42c1;
+}
+
+.small-text {
+    color: #666;
+}
+
+.lesson-box {
+    min-height: 200px;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-buttons button {
+    width: 50%;
+}
+
+.badge {
+    display: inline-block;
+    background: #e8f0fe;
+    color: #163a63;
+    padding: 6px 10px;
+    border-radius: 20px;
+    margin: 4px;
+}
+
+#message {
+    color: #d9534f;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📚 Distinction Academy</h1>
+    <p>Learn • Practise • Master</p>
+</header>
+
+<div class="container">
+
+<!-- WELCOME -->
+<section id="welcome" class="screen active">
+    <div class="card">
+        <h2>Welcome, Learner 👋</h2>
+        <p>
+            Learn your subjects, practise questions, write tests
+            and work towards distinctions.
+        </p>
+
+        <button onclick="showScreen('login')">LOGIN</button>
+        <button class="success" onclick="showScreen('signup')">SIGN UP</button>
+    </div>
+</section>
+
+<!-- SIGN UP -->
+<section id="signup" class="screen">
+    <div class="card">
+        <button class="back secondary" onclick="showScreen('welcome')">← Back</button>
+
+        <h2>Create Your Account</h2>
+
+        <input id="signupName" placeholder="Full Name">
+        <input id="signupUsername" placeholder="Username">
+        <input id="signupEmail" type="email" placeholder="Email">
+        <input id="signupPassword" type="password" placeholder="Password">
+
+        <select id="signupGrade">
+            <option value="">Select Grade</option>
+            <option>Grade 10</option>
+            <option>Grade 11</option>
+            <option>Grade 12</option>
+        </select>
+
+        <select id="signupProvince">
+            <option value="">Select Province</option>
+            <option>Eastern Cape</option>
+            <option>Free State</option>
+            <option>Gauteng</option>
+            <option>KwaZulu-Natal</option>
+            <option>Limpopo</option>
+            <option>Mpumalanga</option>
+            <option>Northern Cape</option>
+            <option>North West</option>
+            <option>Western Cape</option>
+        </select>
+
+        <input id="signupSchool" placeholder="Type your school name">
+
+        <button class="success" onclick="signUp()">CREATE ACCOUNT</button>
+
+        <p id="message"></p>
+    </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="screen">
+    <div class="card">
+        <button class="back secondary" onclick="showScreen('welcome')">← Back</button>
+
+        <h2>Login</h2>
+
+        <input id="loginUsername" placeholder="Username">
+        <input id="loginPassword" type="password" placeholder="Password">
+
+        <button onclick="login()">LOGIN</button>
+    </div>
+</section>
+
+<!-- SELECT GRADE -->
+<section id="grades" class="screen">
+    <div class="card">
+        <h2>Choose Your Grade</h2>
+        <p class="small-text">Choose the grade you want to study.</p>
+
+        <button onclick="chooseGrade('Grade 10')">GRADE 10</button>
+        <button onclick="chooseGrade('Grade 11')">GRADE 11</button>
+        <button onclick="chooseGrade('Grade 12')">GRADE 12</button>
+    </div>
+</section>
+
+<!-- SELECT SUBJECT -->
+<section id="subjects" class="screen">
+    <div class="card">
+        <button class="back secondary" onclick="showScreen('grades')">← Back</button>
+
+        <h2 id="gradeTitle">Choose a Subject</h2>
+
+        <button onclick="chooseSubject('Mathematics')">➗ Mathematics</button>
+        <button onclick="chooseSubject('Physical Sciences')">⚛️ Physical Sciences</button>
+        <button onclick="chooseSubject('Life Sciences')">🧬 Life Sciences</button>
+        <button onclick="chooseSubject('Geography')">🌍 Geography</button>
+        <button onclick="chooseSubject('Agricultural Sciences')">🌱 Agricultural Sciences</button>
+    </div>
+</section>
+
+<!-- ALL TOPICS -->
+<section id="topics" class="screen">
+    <div class="card">
+        <button class="back secondary" onclick="showScreen('subjects')">← Back</button>
+
+        <h2 id="subjectTitle">All Topics</h2>
+
+        <input
+            id="topicSearch"
+            placeholder="🔍 Search for a topic..."
+            oninput="searchTopics()"
+        >
+
+        <div id="topicList"></div>
+    </div>
+</section>
+
+<!-- SUBTOPICS -->
+<section id="subtopics" class="screen">
+    <div class="card">
+        <button class="back secondary" onclick="showScreen('topics')">← Back</button>
+
+        <h2 id="mainTopicTitle">Subtopics</h2>
+
+        <input
+            id="subtopicSearch"
+            placeholder="🔍 Search for a subtopic..."
+            oninput="searchSubtopics()"
+        >
+
+        <div id="subtopicList"></div>
+    </div>
+</section>
+
+<!-- LEARNING METHOD -->
+<section id="methods" class="screen">
+    <div class="card">
+        <button class="back secondary" onclick="showScreen('subtopics')">← Back</button>
+
+        <h2 id="selectedSubtopicTitle">How would you like to learn?</h2>
+
+        <div class="method-card quick">
+            <h3>① Quick & Easy</h3>
+            <p>Short explanations using very simple words.</p>
+            <button onclick="chooseMethod('Quick & Easy')">CHOOSE QUICK & EASY</button>
+        </div>
+
+        <div class="method-card detailed">
+            <h3>② Easy & Detailed</h3>
+            <p>Simple explanations with more detail and examples.</p>
+            <button onclick="chooseMethod('Easy & Detailed')">CHOOSE EASY & DETAILED</button>
+        </div>
+
+        <div class="method-card master">
+            <h3>③ Master It</h3>
+            <p>Thorough learning with deeper explanations and exam preparation.</p>
+            <button onclick="chooseMethod('Master It')">CHOOSE MASTER IT</button>
+        </div>
+    </div>
+</section>
+
+<!-- LESSON -->
+<section id="lesson" class="screen">
+    <div class="card">
+        <h2 id="lessonTitle">Lesson</h2>
+
+        <p>
+            <span class="badge" id="methodBadge"></span>
+            <span class="badge" id="stepBadge">Step 1 of 8</span>
+        </p>
+
+        <div class="progress-bar">
+            <div id="progressBar" class="progress"></div>
+        </div>
+
+        <div class="lesson-box">
+            <h3 id="stepTitle"></h3>
+            <p id="stepContent"></p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="secondary" onclick="previousStep()">← Previous</button>
+            <button onclick="nextStep()">Next →</button>
+        </div>
+    </div>
+</section>
+
+<!-- PROGRESS -->
+<section id="progressScreen" class="screen">
+    <div class="card">
+        <h2>📊 My Progress</h2>
+
+        <p>Completed Subtopics: <span id="completedCount">0</span></p>
+
+        <div id="completedTopics"></div>
+
+        <h3>Combined / Cumulative Tests</h3>
+        <p id="combinedMessage">
+            Complete at least 2 subtopics to unlock a combined test.
+        </p>
+
+        <button onclick="showScreen('grades')">CONTINUE LEARNING</button>
+    </div>
+</section>
+
+</div>
+
+<script>
+
+/*
+DISTINCTION ACADEMY
+STARTER DATA
+
+IMPORTANT:
+This is the first working structure.
+
+Later we will replace these starter lists with
+the complete verified Grade 10, 11 and 12 curriculum.
+*/
+
+const curriculum = {
+
+    "Mathematics": {
+        "Algebra and Equations": [
+            "Algebraic equations",
+            "Inequalities",
+            "Exponents",
+            "Surds"
+        ],
+
+        "Functions": [
+            "Function concepts",
+            "Graphs",
+            "Transformations",
+            "Inverse functions"
+        ],
+
+        "Analytical Geometry": [
+            "Distance between two points",
+            "Gradient",
+            "Midpoint",
+            "Equation of a straight line",
+            "Parallel lines",
+            "Perpendicular lines"
+        ],
+
+        "Euclidean Geometry": [
+            "Geometry theorems",
+            "Similarity",
+            "Circle geometry"
+        ],
+
+        "Trigonometry": [
+            "Trigonometric ratios",
+            "Identities",
+            "Trigonometric equations",
+            "Trigonometric graphs"
+        ],
+
+        "Calculus": [
+            "Limits",
+            "Differentiation",
+            "Applications of derivatives"
+        ],
+
+        "Financial Mathematics": [
+            "Simple interest",
+            "Compound interest",
+            "Financial calculations"
+        ],
+
+        "Statistics": [
+            "Data representation",
+            "Mean",
+            "Median",
+            "Measures of dispersion"
+        ],
+
+        "Probability": [
+            "Probability rules",
+            "Counting principles",
+            "Conditional probability"
+        ]
+    },
+
+    "Physical Sciences": {
+        "Physics": [
+            "Mechanics",
+            "Waves",
+            "Electricity"
+        ],
+
+        "Chemistry": [
+            "Organic chemistry",
+            "Chemical reactions",
+            "Chemical equilibrium"
+        ]
+    },
+
+    "Life Sciences": {
+        "DNA and Protein Synthesis": [
+            "Structure of DNA",
+            "DNA replication",
+            "Transcription",
+            "Translation"
+        ],
+
+        "Genetics": [
+            "Inheritance",
+            "Pedigree diagrams",
+            "Genetic variation"
+        ]
+    },
+
+    "Geography": {
+        "Climate and Weather": [
+            "Climate factors",
+            "Weather systems",
+            "Climate change"
+        ],
+
+        "Geomorphology": [
+            "River systems",
+            "Slopes",
+            "Landforms"
+        ]
+    },
+
+    "Agricultural Sciences": {
+        "Soil Science": [
+            "Soil properties",
+            "Soil fertility"
+        ],
+
+        "Agricultural Production": [
+            "Crop production",
+            "Animal production"
+        ]
+    }
+};
+
+
+let selectedGrade = "";
+let selectedSubject = "";
+let selectedTopic = "";
+let selectedSubtopic = "";
+let selectedMethod = "";
+let currentStep = 0;
+
+let completedSubtopics = [];
+
+
+const learningSteps = [
+
+    {
+        title: "1. LEARN",
+        content:
+        "Learn the main idea of this subtopic. The explanation will use simple language based on your selected learning method."
+    },
+
+    {
+        title: "2. EXAMPLE",
+        content:
+        "See a small worked example that shows how the concept works."
+    },
+
+    {
+        title: "3. CHECK UNDERSTANDING",
+        content:
+        "Answer simple questions to check whether you understand the idea."
+    },
+
+    {
+        title: "4. GET CORRECTED",
+        content:
+        "See whether your answer is correct. If it is wrong, the app explains the correct answer."
+    },
+
+    {
+        title: "5. PRACTISE",
+        content:
+        "Do more practice questions and calculations where needed."
+    },
+
+    {
+        title: "6. EXAM QUESTIONS",
+        content:
+        "Try exam-style questions that are more challenging."
+    },
+
+    {
+        title: "7. MINI TEST",
+        content:
+        "Take a short test to check your understanding."
+    },
+
+    {
+        title: "8. SUBTOPIC TEST",
+        content:
+        "Complete the full test for this subtopic."
+    }
+];
+
+
+function showScreen(screenId) {
+
+    document.querySelectorAll(".screen").forEach(function(screen) {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId).classList.add("active");
+
+    if (screenId === "progressScreen") {
+        updateProgress();
+    }
+}
+
+
+function signUp() {
+
+    const name = document.getElementById("signupName").value;
+    const username = document.getElementById("signupUsername").value;
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+    const grade = document.getElementById("signupGrade").value;
+    const province = document.getElementById("signupProvince").value;
+    const school = document.getElementById("signupSchool").value;
+
+    if (
+        name === "" ||
+        username === "" ||
+        email === "" ||
+        password === "" ||
+        grade === "" ||
+        province === "" ||
+        school === ""
+    ) {
+
+        document.getElementById("message").innerText =
+        "Please complete all fields.";
+
+        return;
+    }
+
+    localStorage.setItem("userName", name);
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+
+    selectedGrade = grade;
+
+    document.getElementById("message").innerText = "";
+
+    showScreen("subjects");
+    updateGradeTitle();
+}
+
+
+function login() {
+
+    const username =
+        document.getElementById("loginUsername").value;
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+    const savedUsername =
+        localStorage.getItem("username");
+
+    const savedPassword =
+        localStorage.getItem("password");
+
+    if (
+        username === savedUsername &&
+        password === savedPassword
+    ) {
+
+        showScreen("grades");
+
+    } else {
+
+        alert(
+            "Incorrect username or password. Create an account first."
+        );
+    }
+}
+
+
+function chooseGrade(grade) {
+
+    selectedGrade = grade;
+
+    updateGradeTitle();
+
+    showScreen("subjects");
+}
+
+
+function updateGradeTitle() {
+
+    document.getElementById("gradeTitle").innerText =
+    selectedGrade + " — Choose a Subject";
+}
+
+
+function chooseSubject(subject) {
+
+    selectedSubject = subject;
+
+    document.getElementById("subjectTitle").innerText =
+    selectedGrade + " — " + selectedSubject + " — All Topics";
+
+    displayTopics();
+
+    showScreen("topics");
+}
+
+
+function displayTopics(filter = "") {
+
+    const topicList =
+        document.getElementById("topicList");
+
+    topicList.innerHTML = "";
+
+    const topics =
+        Object.keys(curriculum[selectedSubject]);
+
+    topics.forEach(function(topic) {
+
+        if (
+            topic.toLowerCase().includes(filter.toLowerCase())
+        ) {
+
+            const subtopicCount =
+                curriculum[selectedSubject][topic].length;
+
+            const button =
+                document.createElement("button");
+
+            button.className = "topic";
+
+            button.innerText =
+                "📘 " +
+                topic +
+                " (" +
+                subtopicCount +
+                " subtopics)";
+
+            button.onclick = function() {
+                chooseTopic(topic);
+            };
+
+            topicList.appendChild(button);
+        }
+    });
+}
+
+
+function searchTopics() {
+
+    const filter =
+        document.getElementById("topicSearch").value;
+
+    displayTopics(filter);
+}
+
+
+function chooseTopic(topic) {
+
+    selectedTopic = topic;
+
+    document.getElementById("mainTopicTitle").innerText =
+    selectedTopic + " — All Subtopics";
+
+    displaySubtopics();
+
+    showScreen("subtopics");
+}
+
+
+function displaySubtopics(filter = "") {
+
+    const subtopicList =
+        document.getElementById("subtopicList");
+
+    subtopicList.innerHTML = "";
+
+    const subtopics =
+        curriculum[selectedSubject][selectedTopic];
+
+    subtopics.forEach(function(subtopic) {
+
+        if (
+            subtopic.toLowerCase().includes(filter.toLowerCase())
+        ) {
+
+            const button =
+                document.createElement("button");
+
+            button.innerText =
+                "📌 " + subtopic;
+
+            button.onclick = function() {
+                chooseSubtopic(subtopic);
+            };
+
+            subtopicList.appendChild(button);
+        }
+    });
+}
+
+
+function searchSubtopics() {
+
+    const filter =
+        document.getElementById("subtopicSearch").value;
+
+    displaySubtopics(filter);
+}
+
+
+function chooseSubtopic(subtopic) {
+
+    selectedSubtopic = subtopic;
+
+    document.getElementById("selectedSubtopicTitle").innerText =
+    selectedSubtopic +
+    " — How would you like to learn?";
+
+    showScreen("methods");
+}
+
+
+function chooseMethod(method) {
+
+    selectedMethod = method;
+
+    currentStep = 0;
+
+    document.getElementById("lessonTitle").innerText =
+    selectedSubtopic;
+
+    document.getElementById("methodBadge").innerText =
+    selectedMethod;
+
+    updateLesson();
+
+    showScreen("lesson");
+}
+
+
+function updateLesson() {
+
+    const step = learningSteps[currentStep];
+
+    document.getElementById("stepTitle").innerText =
+    step.title;
+
+    document.getElementById("stepContent").innerText =
+    step.content;
+
+    document.getElementById("stepBadge").innerText =
+    "Step " +
+    (currentStep + 1) +
+    " of " +
+    learningSteps.length;
+
+    const progress =
+        ((currentStep + 1) / learningSteps.length) * 100;
+
+    document.getElementById("progressBar").style.width =
+    progress + "%";
+}
+
+
+function nextStep() {
+
+    if (currentStep < learningSteps.length - 1) {
+
+        currentStep++;
+
+        updateLesson();
+
+    } else {
+
+        completeSubtopic();
+    }
+}
+
+
+function previousStep() {
+
+    if (currentStep > 0) {
+
+        currentStep--;
+
+        updateLesson();
+    }
+}
+
+
+function completeSubtopic() {
+
+    const completedItem =
+        selectedSubject +
+        " — " +
+        selectedTopic +
+        " — " +
+        selectedSubtopic;
+
+    if (
+        !completedSubtopics.includes(completedItem)
+    ) {
+
+        completedSubtopics.push(completedItem);
+    }
+
+    alert(
+        "🎉 Well done! You completed " +
+        selectedSubtopic +
+        "."
+    );
+
+    showScreen("progressScreen");
+}
+
+
+function updateProgress() {
+
+    document.getElementById("completedCount").innerText =
+    completedSubtopics.length;
+
+    const completedTopics =
+        document.getElementById("completedTopics");
+
+    completedTopics.innerHTML = "";
+
+    completedSubtopics.forEach(function(item) {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "card";
+
+        div.innerText = "✓ " + item;
+
+        completedTopics.appendChild(div);
+    });
+
+    const combinedMessage =
+        document.getElementById("combinedMessage");
+
+    if (completedSubtopics.length >= 2) {
+
+        combinedMessage.innerHTML =
+        "🎉 COMBINED TEST UNLOCKED!<br><br>" +
+        "Test yourself on all completed subtopics.";
+
+    } else {
+
+        combinedMessage.innerText =
+        "Complete at least 2 subtopics to unlock a combined test.";
+    }
+}
+
+</script>
+
+</body>
+</html>
